@@ -1,14 +1,25 @@
 package com.binance;
 
+import com.binance.dto.OrderType;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class BinanceAPI {
+    /**
+     * The base url for all requests
+     */
     private static String BASE_URL = "https://www.binance.com";
+
+    /**
+     * Create signed request for signed request transactions
+     */
+    private static String signedRequest
 
     /**
      * Method to get the latest price
@@ -41,7 +52,17 @@ public class BinanceAPI {
         return sendGet(BASE_URL + "/api/v1/depth?symbol="+symbol+"&limit="+limit);
     }
 
-    // HTTP GET request
+    public static String buy(String symbol, BigDecimal quantity, BigDecimal price, OrderType orderType) {
+
+    }
+
+
+    /**
+     * Given an url, return the json response
+     * @param url The given url
+     * @return A string representation of json
+     * @throws Exception when request is not valid
+     */
     private static String sendGet(String url) throws Exception {
 
         URL obj = new URL(url);
