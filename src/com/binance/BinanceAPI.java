@@ -7,16 +7,38 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Main {
+public class BinanceAPI {
     private static String BASE_URL = "https://www.binance.com";
 
-    public static void main(String[] args) throws Exception {
-        System.out.println("Hello World!");
-        System.out.println(getLatestPrice("Hello"));
+    /**
+     * Method to get the latest price
+     * @param symbol The symbol for the requested ticker, e.g ETHBTC
+     * @return A json response with the corresponding ticker price
+     * @throws Exception when request is not valid
+     */
+    public static String getLatestPrice(String symbol) throws Exception {
+        return sendGet(BASE_URL + "/api/v1/ticker/24hr?symbol="+symbol);
     }
 
-    public static String getLatestPrice(String symbol) throws Exception {
-        return sendGet(BASE_URL + "/api/v1/ticker/24hr?symbol=ETHBTC");
+    /**
+     * Method for getting depth of a symbol with default limit
+     * @param symbol The symbol for the requested ticker, e.g ETHBTC
+     * @return A json response with the corresponding ticker depth
+     * @throws Exception when request is not valid
+     */
+    public static String getDepth(String symbol) throws Exception {
+        return sendGet(BASE_URL + "/api/v1/depth?symbol="+symbol);
+    }
+
+    /**
+     * Method for getting depth of a symbol with custom limit
+     * @param symbol The symbol for the requested ticker, e.g ETHBTC
+     * @param limit The custom depth that user wants to set
+     * @return A json response with the corresponding ticker depth
+     * @throws Exception when request is not valid
+     */
+    public static String getDepth(String symbol, Integer limit) throws Exception {
+        return sendGet(BASE_URL + "/api/v1/depth?symbol="+symbol+"&limit="+limit);
     }
 
     // HTTP GET request
