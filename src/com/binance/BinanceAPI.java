@@ -49,7 +49,7 @@ public class BinanceAPI {
      * @throws Exception when request is not valid
      */
     public static String getLatestPrice(String symbol) throws Exception {
-        return sendGet(BASE_URL + "/api/v1/ticker/24hr?symbol="+symbol);
+        return sendGet("/api/v1/ticker/24hr?symbol="+symbol);
     }
 
     /**
@@ -59,7 +59,7 @@ public class BinanceAPI {
      * @throws Exception when request is not valid
      */
     public static String getDepth(String symbol) throws Exception {
-        return sendGet(BASE_URL + "/api/v1/depth?symbol="+symbol);
+        return sendGet("/api/v1/depth?symbol="+symbol);
     }
 
     /**
