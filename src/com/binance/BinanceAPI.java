@@ -1,5 +1,6 @@
 package com.binance;
 
+import com.binance.dto.BinanceAccountDTO;
 import com.binance.dto.OrderType;
 import org.apache.commons.codec.binary.Hex;
 
@@ -24,23 +25,16 @@ import java.net.URL;
 public class BinanceAPI {
 
     /**
-     * API Key for the Binance API instance
+     * The account for this instance.
      */
-    private final String apiKey;
-
-    /**
-     * Secret Key for the Binance API instance
-     */
-    private final String secretKey;
+    private final BinanceAccountDTO account;
 
     /**
      * The Constructor for each Binance API Instance.
-     * @param apiKey The given api key
-     * @param secretKey The given secret key
+     * @param account The given account for this api instance
      */
-    public BinanceAPI(String apiKey, String secretKey) {
-        this.apiKey = apiKey;
-        this.secretKey = secretKey;
+    public BinanceAPI(BinanceAccountDTO account) {
+        this.account = account;
     }
 
     /**
@@ -86,7 +80,7 @@ public class BinanceAPI {
      * @return The string with the hex encoded message
      * @throws Exception The encoded failure
      */
-    private static String getSignatureKey(String secret, String message) throws Exception {
+    static String getSignatureKey(String secret, String message) throws Exception {
         try {
 
             Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
