@@ -1,7 +1,10 @@
 package com.binance;
 
 import com.binance.dto.OrderType;
+import org.apache.commons.codec.binary.Hex;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
@@ -10,16 +13,40 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Demonstration of the Binance API features
+ *
+ * @author Richard He
+ *
+ * Copyright 2017-, Richard He
+ * Released under the MIT License
+ */
 public class BinanceAPI {
+
+    /**
+     * API Key for the Binance API instance
+     */
+    private final String apiKey;
+
+    /**
+     * Secret Key for the Binance API instance
+     */
+    private final String secretKey;
+
+    /**
+     * The Constructor for each Binance API Instance.
+     * @param apiKey The given api key
+     * @param secretKey The given secret key
+     */
+    public BinanceAPI(String apiKey, String secretKey) {
+        this.apiKey = apiKey;
+        this.secretKey = secretKey;
+    }
+
     /**
      * The base url for all requests
      */
-    private static String BASE_URL = "https://www.binance.com";
-
-    /**
-     * Create signed request for signed request transactions
-     */
-    private static String signedRequest
+    private static final String BASE_URL = "https://www.binance.com";
 
     /**
      * Method to get the latest price
@@ -49,11 +76,33 @@ public class BinanceAPI {
      * @throws Exception when request is not valid
      */
     public static String getDepth(String symbol, Integer limit) throws Exception {
-        return sendGet(BASE_URL + "/api/v1/depth?symbol="+symbol+"&limit="+limit);
+        return sendGet(BASE_URL + "/api/v1/depth?symbol=" + symbol + "&limit=" + limit);
+    }
+
+    /**
+     * Get signature given the secret key and message to encode
+     * @param secret The secret key given by Biance Account DTO
+     * @param message The messge to be encoded
+     * @return The string with the hex encoded message
+     * @throws Exception The encoded failure
+     */
+    private static String getSignatureKey(String secret, String message) throws Exception {
+        try {
+
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+
+            return Hex.encodeHexString(sha256_HMAC.doFinal(message.getBytes()));
+        }
+        catch (Exception e){
+            System.out.println("Error");
+        }
+        return secret;
     }
 
     public static String buy(String symbol, BigDecimal quantity, BigDecimal price, OrderType orderType) {
-
+        return null;
     }
 
 
