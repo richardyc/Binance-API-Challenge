@@ -2,6 +2,11 @@ package com.binance.dto;
 
 /**
  * The DTO class for storing Binance Account Information
+ *
+ * @author Richard He
+ *
+ * Copyright 2017-, Richard He
+ * Released under the MIT License
  */
 public class BinanceAccountDTO {
   /**

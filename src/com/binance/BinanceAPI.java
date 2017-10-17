@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Timestamp;
 
 /**
  * Demonstration of the Binance API features
@@ -71,7 +70,7 @@ public class BinanceAPI {
      * @throws Exception when request is not valid
      */
     public static String getDepth(String symbol, Integer limit) throws Exception {
-        return sendGet(BASE_URL + "/api/v1/depth?symbol=" + symbol + "&limit=" + limit);
+        return sendGet("/api/v1/depth?symbol=" + symbol + "&limit=" + limit);
     }
 
     /**
@@ -131,10 +130,77 @@ public class BinanceAPI {
             String buyMsg = "symbol=" + symbol + "&side=BUY&type=" + orderType.toString() + "&timeInForce=GTC&quantity="
                 + quantity + "&recvWindow=6000000&timestamp=" + curTime;
             String signature = getSignatureKey(account.getSecretKey(), buyMsg);
-            return executePost("/api/v3/order/test", buyMsg + "&signature=" + signature);
+            return executePost("/api/v3/order", buyMsg + "&signature=" + signature);
         } else {
             return "Error: Did not specify a price with a limit order type.";
         }
+    }
+
+    /**
+     * Check order status based on order symbol
+     * @param symbol The symbol of the traded currency
+     * @return The returned json content
+     * @throws Exception If the get request failed
+     */
+    public String checkOrderStat(String symbol) throws Exception {
+        String msg = "symbol=" + symbol + "&timestamp=" + System.currentTimeMillis();
+        return sendGet("/api/v3/order?" + msg + getSignatureKey(account.getSecretKey(), msg));
+    }
+
+    /**
+     * Check order status based on order symbol
+     * @param symbol The symbol of the traded currency
+     * @param orderID The order id of the traded currency
+     * @return The returned json content
+     * @throws Exception If the get request failed
+     */
+    public String checkOrderStat(String symbol, Long orderID) throws Exception {
+        String msg = "symbol=" + symbol + "&orderId=" + orderID + "&timestamp=" + System.currentTimeMillis();
+        return sendGet("/api/v3/order?" + msg + getSignatureKey(account.getSecretKey(), msg));
+    }
+
+    /**
+     * Cancel order based on symbol
+     * @param symbol The symbol of the traded currency
+     * @return The returned json content of canceled order
+     * @throws Exception If the delete request failed
+     */
+    public String cancelOrder(String symbol) throws Exception {
+        String msg = "symbol=" + symbol + "&timestamp=" + System.currentTimeMillis();
+        return sendDelete("/api/v3/order?" + msg + getSignatureKey(account.getSecretKey(), msg));
+    }
+
+    /**
+     * Cancel specific order based on orderID
+     * @param symbol The symbol of the traded currency
+     * @param orderID The order ID
+     * @return The returned json content of the canceled order
+     * @throws Exception If the delete request failed
+     */
+    public String cancelOrder(String symbol, Long orderID) throws Exception {
+        String msg = "symbol=" + symbol + "&orderId=" + orderID + "&timestamp=" + System.currentTimeMillis();
+        return sendDelete("/api/v3/order?" + msg + getSignatureKey(account.getSecretKey(), msg));
+    }
+
+    /**
+     * Get list of open orders
+     * @param symbol The symbol of the traded currency
+     * @return The returned json content
+     * @throws Exception If the get request failed
+     */
+    public String getOpenOrders(String symbol) throws Exception {
+        String msg = "symbol=" + symbol + "&timestamp=" + System.currentTimeMillis();
+        return sendGet("/api/v3/openOrders?" + msg + getSignatureKey(account.getSecretKey(), msg));
+    }
+
+    /**
+     * Get list of Current Positions
+     * @return The returned json content
+     * @throws Exception If the get request failed
+     */
+    public String getCurrentPositions() throws Exception {
+        String msg = "timestamp=" + System.currentTimeMillis();
+        return sendGet("/api/v3/account?" + msg + getSignatureKey(account.getSecretKey(), msg));
     }
 
     /**
@@ -145,7 +211,7 @@ public class BinanceAPI {
      */
     private static String sendGet(String url) throws Exception {
 
-        URL obj = new URL(url);
+        URL obj = new URL(BASE_URL + url);
 
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -154,6 +220,39 @@ public class BinanceAPI {
 
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+
+        BufferedReader in = new BufferedReader(
+            new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //print result
+        return (response.toString());
+    }
+
+    /**
+     * Given an url, return the json response
+     * @param url The given url
+     * @return A string representation of json
+     * @throws Exception when request is not valid
+     */
+    private static String sendDelete(String url) throws Exception {
+
+        URL obj = new URL(BASE_URL + url);
+
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // optional default is DELETE
+        con.setRequestMethod("DELETE");
+
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'DELETE' request to URL : " + url);
         System.out.println("Response Code : " + responseCode);
 
         BufferedReader in = new BufferedReader(

@@ -5,7 +5,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by richardhe on 10/16/17.
+ * Tests for the Binance Account DTOs
+ *
+ * @author Richard He
+ *
+ * Copyright 2017-, Richard He
+ * Released under the MIT License
  */
 public class BinanceAccountDTOTest {
   BinanceAccountDTO newAccount =
