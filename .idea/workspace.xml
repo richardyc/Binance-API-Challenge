@@ -25,8 +25,8 @@
       <file leaf-file-name="BinanceAPI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/binance/BinanceAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="137" column="5" selection-start-line="137" selection-start-column="5" selection-end-line="137" selection-end-column="5" />
+            <state relative-caret-position="386">
+              <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#901#902#0" expanded="true" />
@@ -878,7 +878,7 @@
       <option name="presentableId" value="Default" />
       <updated>1507310950210</updated>
       <workItem from="1507310953229" duration="2009000" />
-      <workItem from="1508126459529" duration="11801000" />
+      <workItem from="1508126459529" duration="11923000" />
     </task>
     <servers />
   </component>
@@ -915,7 +915,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13810000" />
+    <option name="totallyTimeSpent" value="13932000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
@@ -1048,8 +1048,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/binance/BinanceAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="137" column="5" selection-start-line="137" selection-start-column="5" selection-end-line="137" selection-end-column="5" />
+        <state relative-caret-position="386">
+          <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#901#902#0" expanded="true" />

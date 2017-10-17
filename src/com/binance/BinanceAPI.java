@@ -168,9 +168,14 @@ public class BinanceAPI {
 
         //print result
         return (response.toString());
-
     }
 
+    /**
+     * Method for executing POST requests
+     * @param targetURL The target url
+     * @param urlParameters The parameters for the POST request
+     * @return A string with the json content of the response
+     */
     public static String executePost(String targetURL, String urlParameters) {
         HttpURLConnection connection = null;
 
