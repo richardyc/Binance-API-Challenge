@@ -24,6 +24,11 @@ public class BinanceAPITest {
   BinanceAccountDTO account = new BinanceAccountDTO("vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A",
       "NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j");
 
+  /**
+   * One instance of binance api for testing
+   */
+  BinanceAPI api = new BinanceAPI(account);
+
   @Test
   public void getDepth() throws Exception {
     System.out.println(BinanceAPI.getDepth("ETHBTC", 200));
@@ -46,6 +51,6 @@ public class BinanceAPITest {
 
   @Test
   public void testBuy() throws Exception {
-    System.out.println(BinanceAPI.buy("ETHBTC", BigDecimal.valueOf(10.5), BigDecimal.valueOf(0.0578), OrderType.LIMIT));
+    System.out.println(api.buy("ETHBTC", BigDecimal.valueOf(10.5), BigDecimal.valueOf(0.0578), OrderType.LIMIT));
   }
 }

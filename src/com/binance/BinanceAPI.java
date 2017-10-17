@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 
 /**
  * Demonstration of the Binance API features
@@ -95,10 +96,46 @@ public class BinanceAPI {
         return secret;
     }
 
-    public static String buy(String symbol, BigDecimal quantity, BigDecimal price, OrderType orderType) {
-        return null;
+    /**
+     * The function for buying with limit and market orders
+     * @param symbol The symbol for the target ticker
+     * @param quantity The quantity to buy
+     * @param price The price of the ideal limit orders
+     * @param orderType The type of the order
+     * @return A String if successfully ordered
+     * @throws Exception If the post request failed
+     */
+    public String buy(String symbol, BigDecimal quantity, BigDecimal price, OrderType orderType) throws Exception {
+        if (orderType.equals(orderType.LIMIT)) {
+            long curTime = System.currentTimeMillis();
+            String buyMsg = "symbol=" + symbol + "&side=BUY&type=" + orderType.toString() + "&timeInForce=GTC&quantity="
+                + quantity + "&price=" + price + "&recvWindow=6000000&timestamp=" + curTime;
+            String signature = getSignatureKey(account.getSecretKey(), buyMsg);
+            return executePost("/api/v3/order/test", buyMsg + "&signature=" + signature);
+        } else {
+            return "Error: Specified a price with a non-limit order type.";
+        }
     }
 
+    /**
+     * The function for buying with limit and market orders
+     * @param symbol The symbol for the target ticker
+     * @param quantity The quantity to buy
+     * @param orderType The type of the order
+     * @return A String if successfully ordered
+     * @throws Exception If the post request failed
+     */
+    public String buy(String symbol, BigDecimal quantity, OrderType orderType) throws Exception {
+        if (orderType.equals(orderType.MARKET)) {
+            long curTime = System.currentTimeMillis();
+            String buyMsg = "symbol=" + symbol + "&side=BUY&type=" + orderType.toString() + "&timeInForce=GTC&quantity="
+                + quantity + "&recvWindow=6000000&timestamp=" + curTime;
+            String signature = getSignatureKey(account.getSecretKey(), buyMsg);
+            return executePost("/api/v3/order/test", buyMsg + "&signature=" + signature);
+        } else {
+            return "Error: Did not specify a price with a limit order type.";
+        }
+    }
 
     /**
      * Given an url, return the json response
@@ -139,7 +176,7 @@ public class BinanceAPI {
 
         try {
             //Create connection
-            URL url = new URL(targetURL);
+            URL url = new URL(BASE_URL + targetURL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type",
